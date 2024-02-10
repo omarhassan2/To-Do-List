@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Complete Project Proposal",
+        "due_date": "2024-02-15",
+        "priority": "Low",
+        "details": "Include budget details",
+        "completed": false
+    },
+    {
+        "name": "Buy Groceries",
+        "due_date": "2024-02-10",
+        "priority": "High",
+        "details": "Milk, eggs, bread, fruits",
+        "completed": false
+    },
+    {
+        "name": "Prepare for Meeting",
+        "due_date": "2024-02-12",
+        "priority": "Medium",
+        "details": "Review agenda and documents",
+        "completed": true
+    },
+    {
+        "name": "Write Python Script",
+        "due_date": "2024-02-20",
+        "priority": "Medium",
+        "details": "Create a script for task automation",
+        "completed": false
+    },
+    {
+        "name": "Exercise",
+        "due_date": "2024-02-18",
+        "priority": "High",
+        "details": "30 minutes of jogging and 20 minutes of strength training",
+        "completed": false
+    },
+    {
+        "name": "Read Book",
+        "due_date": "2024-02-14",
+        "priority": "Low",
+        "details": "Start reading 'The Hitchhiker's Guide to the Galaxy'",
+        "completed": true
+    }
+]

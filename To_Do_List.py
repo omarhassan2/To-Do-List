@@ -5,6 +5,9 @@ Date: February 9, 2024
 Description: This file contains the To-Do-List Class
 """
 
+import json
+
+list_of_tasks= []
 
 """
 ToDoList Class :
@@ -115,7 +118,10 @@ class ToDoList:
     # @return :
     """
     def sort_by_priority(self):
-        # Write your code here
+        # Write your code here 
+        # Note that the next line is just my suggestion to sort by priority @Marwan Abdelmoneim
+        # TODO make a dictionary here for a priority level and assign numbers to each priority
+        # Example: priority_order = {"Low": 1, "Medium": 2, "High": 3}
         pass
 
 
@@ -138,11 +144,31 @@ class ToDoList:
     # @param : filename (str): The name of the JSON file to save the To-Do List.
     # @return :
     """
-    def save_to_json(self, filename:str):
-        # Write your code here
+    def save_to_json(task, filename:str):
+        
+        '''
+         Here we are saving the data from the list_of_tasks variable to the JSON file.
+
+         Parameters:
+         filename (str): The name of the JSON file to save the To-Do List.
+         
+         Returns:
+         None.
+        
+         Functionality: The function starts with opening the json file in write mode
+         then writing the task passed to it into json file 
+         '''
+        try:
+            with open(filename, "w") as tasks_file:
+                json.dump(task, tasks_file, indent=2)
+            print(f"Data successfully saved to {filename}")
+        except FileNotFoundError:
+            print(f"Error: File '{filename}' not found.")
+        except IOError as e:
+            print(f"Error writing to '{filename}': {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
         pass
-
-
 
     """
     # @author :
@@ -151,5 +177,32 @@ class ToDoList:
     # @return :
     """
     def load_from_json(self, filename:str):
-        # Write your code here
+        
+        '''
+         Here we are loading the data from the JSON file into the list_of_tasks variable.
+
+         Parameters:
+         filename (str): The name of the JSON file to load tasks from.
+
+         Returns:
+         None.
+
+         Functionality: The function starts with opening the json file in read mode
+         and loads the data into the list_of_tasks variable.
+        '''
+        try:
+            with open(filename, "r") as tasks_file:
+                data = json.load(tasks_file)
+
+            for task in data:
+                list_of_tasks.append(task)
+            print(f"Data successfully loaded from {filename}")
+        except FileNotFoundError:
+            print(f"Error: File '{filename}' not found.")
+        except IOError as e:
+            print(f"Error reading from '{filename}': {e}")
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON from '{filename}': {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
         pass
