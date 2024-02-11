@@ -37,6 +37,7 @@ class ToDoList:
 
 
 
+
     """
     # @author :
     # @description :  Adds a task to the To-Do List.
@@ -44,9 +45,11 @@ class ToDoList:
     # @return :
     """
     def add_task(self, task:Task):
-        # Write your code here
-        pass
-    
+        try:
+            self.tasks.append(task)
+        except ValueError as e:
+            print(f"{e}, Faild to add task.")    
+
 
 
     """
@@ -56,8 +59,12 @@ class ToDoList:
     # @return :
     """    
     def delete_task(self, task_index:int):
-        # Write your code here
-        pass
+        try:
+            TaskToDelete = list(self.tasks)[task_index]
+            self.tasks.remove(TaskToDelete)
+            print(f"Task {TaskToDelete} has been removed.")
+        except IndexError:
+            raise IndexError("Invalid task index. No task found at the provided index.")
 
 
 
@@ -68,8 +75,11 @@ class ToDoList:
     # @return :
     """
     def mark_task_as_completed(self, task_index:int):
-        # Write your code here
-        pass
+        if not self.tasks:
+            print("Error: No tasks to complete.")
+            return
+        task = Task(self.tasks[task_index])
+        task.mark_as_completed()
 
 
 
@@ -78,11 +88,13 @@ class ToDoList:
     # @description : Sets the due date for a specific task in the To-Do List.
     # @param task_index (int): The index of the task for which to set the due date.
     # @param due_date (str or None): The due date to be set for the task. Pass None if no due date is needed.
-    # @return :
     """
     def set_due_date(self, task_index:int, due_date:str):
-        # Write your code here
-        pass
+        if not self.tasks:
+            print("Error: No tasks to set due date for.")
+            return
+        task =Task(self.tasks[task_index])
+        task.set_due_date(due_date)
 
 
 
@@ -91,73 +103,51 @@ class ToDoList:
     # @description : Sets additional details for a specific task in the To-Do List.
     # @param task_index (int): The index of the task for which to set additional details.
     # @param additional_details (str or None): The additional details to be set for the task.
-    # @return :
     """
     def set_additional_details(self, task_index:int, additional_details:str):
-        # Write your code here
-        pass
+        if not self.tasks:
+            print("Error: No tasks to set additional details for.")
+            return
+        task =Task(self.tasks[task_index])
+        task.set_additional_details(additional_details)
 
 
 
     """
     # @author :
     # @description : Displays the list of tasks in the To-Do List.
-    # @param :
-    # @return :
     """
     def view_tasks(self):
-        # Write your code here
-        pass
+        if not self.tasks:
+            print("The To-Do List is empty.")
+        else:
+            print("Tasks in the To-Do List:")
+            for i, task in enumerate(self.tasks, start=1):
+                print(f"{i}.{task}")
 
 
 
     """
     # @author :
     # @description : Sorts the tasks in the To-Do List based on priority level.
-    # @param :
-    # @return :
     """
     def sort_by_priority(self):
         # Write your code here 
         # Note that the next line is just my suggestion to sort by priority @Marwan Abdelmoneim
         # TODO make a dictionary here for a priority level and assign numbers to each priority
         # Example: priority_order = {"Low": 1, "Medium": 2, "High": 3}
-        pass
-
-
-
-    """
-    # @author :
-    # @description : Sorts the tasks in the To-Do List based on due date.
-    # @param :
-    # @return :
-    """
-    def sort_by_due_date(self):
-        # Write your code here
-        pass
-
+       priority_order = {"Low": 1, "Medium": 2, "High": 3}  # Assign numerical values to priorities
+       self.tasks.sort(key = lambda task: priority_order.get(task.get_priority()), reverse=True) 
 
 
     """
     # @author :
-    # @description : Saves the list of tasks to a JSON file.
+    # @description : Here we are saving the data from the list_of_tasks variable to the JSON file.
     # @param : filename (str): The name of the JSON file to save the To-Do List.
-    # @return :
+    # @Functionality: The function starts with opening the json file in write mode
+                      then writing the task passed to it into json file.
     """
     def save_to_json(task, filename:str):
-        
-        '''
-         Here we are saving the data from the list_of_tasks variable to the JSON file.
-
-         Parameters:
-         filename (str): The name of the JSON file to save the To-Do List.
-         
-         Returns:
-         None.
-        
-         Functionality: The function starts with opening the json file in write mode
-         then writing the task passed to it into json file 
-         '''
         try:
             with open(filename, "w") as tasks_file:
                 json.dump(task, tasks_file, indent=2)
@@ -168,28 +158,17 @@ class ToDoList:
             print(f"Error writing to '{filename}': {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-        pass
+
+
 
     """
     # @author :
-    # @description : Loads tasks from a JSON file and updates the task list.
+    # @description : Here we are loading the data from the JSON file into the list_of_tasks variable
     # @param : filename (str): The name of the JSON file to load tasks from.
-    # @return :
+    # @Functionality: The function starts with opening the json file in read mode
+                      and loads the data into the list_of_tasks variable.
     """
     def load_from_json(self, filename:str):
-        
-        '''
-         Here we are loading the data from the JSON file into the list_of_tasks variable.
-
-         Parameters:
-         filename (str): The name of the JSON file to load tasks from.
-
-         Returns:
-         None.
-
-         Functionality: The function starts with opening the json file in read mode
-         and loads the data into the list_of_tasks variable.
-        '''
         try:
             with open(filename, "r") as tasks_file:
                 data = json.load(tasks_file)
@@ -205,4 +184,3 @@ class ToDoList:
             print(f"Error decoding JSON from '{filename}': {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-        pass

@@ -12,13 +12,13 @@ Attributes:
     * description (str) : The description of the task.
     * completed   (bool): The completion status of the task (default is False).
     * due_date    (str) : The due date of the task (default is None).
-    * priority    (int) : The priority level[1 - 2 - 3] of the task (default is 3).
+    * priority    (str) : The priority level[1(High) - 2(Medium) - 3(Low)] of the task (default is 3).
     * additional_details (str) : Additional details about the task (default is None).
 Functions:
     * mark_as_completed
 """
 class Task:
-    def __init__(task, description : str, due_date=None, priority=3, additional_details=None):
+    def __init__(task, description : str, due_date=None, priority="Low", additional_details=None):
         task.description = description
         task.due_date = due_date
         task.priority = priority
@@ -30,8 +30,48 @@ class Task:
     """
     # @author :
     # @description : Marks a task as completed.
-    # @param : task (Task): The Task object to be marked as completed.
-    # @return :
     """
     def mark_as_completed(task):
         task.completed = True
+
+
+
+    """
+    # @author : Omar
+    # @description : Set the due date of the task.
+    # @param : date (str): The due date of the tas
+    """
+    def set_due_date(task, date:str):
+        task.due_date = date
+
+
+    """
+    # @author : Omar
+    # @description : Set the due date of the task.
+    # @param : date (str): The due date of the tas
+    """
+    def set_additional_details(task, additional_details:str):
+        task.additional_details = additional_details
+
+
+
+    """
+    # @author : Omar
+    # @description : Set the due date of the task.
+    # @param : date (str): The due date of the tas
+    """
+    def get_priority(self):
+        return self.priority
+
+
+    """
+    # @author : Omar
+    # @description : show how Task class will be printed.
+    """
+    def __str__(self):
+        return (f"Task:\n"
+                f"  Description: {self.description}\n"
+                f"  Due Date: {self.due_date}\n"
+                f"  Priority: {self.priority}\n"
+                f"  Additional Details: {self.additional_details}\n"
+                f"  Completed: {self.completed}")
