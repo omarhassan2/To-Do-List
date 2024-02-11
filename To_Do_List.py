@@ -6,6 +6,9 @@ Description: This file contains the To-Do-List Class
 """
 
 import json
+from colorama import init, Fore, Style
+
+init(autoreset=True)
 
 list_of_tasks= []
 
@@ -44,11 +47,13 @@ class ToDoList:
     # @param :  task (Task): The Task object to be added to the To-Do List.
     # @return :
     """
-    def add_task(self, task:Task):
+    def add_task(self, task: Task):
+
         try:
             self.tasks.append(task)
+
         except ValueError as e:
-            print(f"{e}, Faild to add task.")    
+            print(f"{Fore.RED}{e}, Failed to add task.")    
 
 
 
@@ -59,12 +64,15 @@ class ToDoList:
     # @return :
     """    
     def delete_task(self, task_index:int):
+
         try:
             TaskToDelete = list(self.tasks)[task_index]
             self.tasks.remove(TaskToDelete)
-            print(f"Task {TaskToDelete} has been removed.")
+
+            print(f"{Fore.YELLOW}Task {TaskToDelete} has been removed.")
+
         except IndexError:
-            raise IndexError("Invalid task index. No task found at the provided index.")
+            raise IndexError(f"{Fore.RED}Invalid task index. No task found at the provided index.")
 
 
 
@@ -76,7 +84,7 @@ class ToDoList:
     """
     def mark_task_as_completed(self, task_index:int):
         if not self.tasks:
-            print("Error: No tasks to complete.")
+            print(f"{Fore.RED}Error: No tasks to complete.")
             return
         task = Task(self.tasks[task_index])
         task.mark_as_completed()
@@ -91,7 +99,7 @@ class ToDoList:
     """
     def set_due_date(self, task_index:int, due_date:str):
         if not self.tasks:
-            print("Error: No tasks to set due date for.")
+            print(f"{Fore.RED}Error: No tasks to set due date for.")
             return
         task =Task(self.tasks[task_index])
         task.set_due_date(due_date)
@@ -108,7 +116,7 @@ class ToDoList:
         if not self.tasks:
             print("Error: No tasks to set additional details for.")
             return
-        task =Task(self.tasks[task_index])
+        task = Task(self.tasks[task_index])
         task.set_additional_details(additional_details)
 
 
@@ -119,7 +127,8 @@ class ToDoList:
     """
     def view_tasks(self):
         if not self.tasks:
-            print("The To-Do List is empty.")
+            print(f"{Fore.RED}The To-Do List is empty.")
+            return -1
         else:
             print("Tasks in the To-Do List:")
             for i, task in enumerate(self.tasks, start=1):

@@ -20,3 +20,6 @@ class User:
     def __init__(self, name:str):
         self.name = name
         self.toDoList = ToDoList()
+
+    def __str__(self):
+        return f"User: {self.name}"
