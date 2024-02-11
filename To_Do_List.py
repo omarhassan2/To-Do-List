@@ -5,13 +5,6 @@ Date: February 9, 2024
 Description: This file contains the To-Do-List Class
 """
 
-import json
-from colorama import init, Fore, Style
-
-init(autoreset=True)
-
-list_of_tasks= []
-
 """
 ToDoList Class :
 Attributes:
@@ -20,18 +13,25 @@ Functions:
     * add_task                  1       --> Hassan
     * delete_task               2       --> Tasnem
     * mark_task_as_completed    3       --> Hager
-    * set_due_date              4       --> Nancy
+    * set_due_date              4       --> Hager
     * set_additional_details    5       --> Nancy
     * view_tasks                6       --> Hassan
     * sort_by_priority          7       --> Tasnem
-    * sort_by_due_date          8       --> Hager
+    * sort_by_due_date          8       --> Nancy
     * save_to_json              9       --> Marwan
     * load_from_json            10      --> Marwan
 """
 
 ############# Modules Section #############
 from Task import Task
-#######################################
+import json
+from colorama import init, Fore, Style
+###########################################
+
+init(autoreset=True)
+list_of_tasks= []
+
+
 
 class ToDoList:
     def __init__(self):
@@ -42,13 +42,12 @@ class ToDoList:
 
 
     """
-    # @author :
+    # @author : Hassan
     # @description :  Adds a task to the To-Do List.
     # @param :  task (Task): The Task object to be added to the To-Do List.
     # @return :
     """
     def add_task(self, task: Task):
-
         try:
             self.tasks.append(task)
 
@@ -58,37 +57,33 @@ class ToDoList:
 
 
     """
-    # @author :
+    # @author : Tasnem
     # @description : Deletes a specific task from the To-Do List.
     # @param : task_index (int): The index of the task to be deleted.
-    # @return :
     """    
     def delete_task(self, task_index:int):
-
         try:
-            TaskToDelete = list(self.tasks)[task_index]
+            TaskToDelete = Task((self.tasks)[task_index])
             self.tasks.remove(TaskToDelete)
 
             print(f"{Fore.YELLOW}Task {TaskToDelete} has been removed.")
-
         except IndexError:
             raise IndexError(f"{Fore.RED}Invalid task index. No task found at the provided index.")
 
 
 
     """
-    # @author :
+    # @author : Hager
     # @description : Marks a specific task in the To-Do List as completed.
     # @param : task_index (int): The index of the task to be completed.
-    # @return :
     """
     def mark_task_as_completed(self, task_index:int):
         if not self.tasks:
             print(f"{Fore.RED}Error: No tasks to complete.")
             return
-        task = Task(self.tasks[task_index])
+        task = Task(self.tasks[task_index])  
         task.mark_as_completed()
-
+    
 
 
     """
@@ -122,13 +117,13 @@ class ToDoList:
 
 
     """
-    # @author :
+    # @author : Hassan
     # @description : Displays the list of tasks in the To-Do List.
     """
     def view_tasks(self):
         if not self.tasks:
             print(f"{Fore.RED}The To-Do List is empty.")
-            return -1
+            return -1 # Check before delete function
         else:
             print("Tasks in the To-Do List:")
             for i, task in enumerate(self.tasks, start=1):
@@ -137,7 +132,7 @@ class ToDoList:
 
 
     """
-    # @author :
+    # @author : Tasnem
     # @description : Sorts the tasks in the To-Do List based on priority level.
     """
     def sort_by_priority(self):
@@ -147,6 +142,7 @@ class ToDoList:
         # Example: priority_order = {"Low": 1, "Medium": 2, "High": 3}
        priority_order = {"Low": 1, "Medium": 2, "High": 3}  # Assign numerical values to priorities
        self.tasks.sort(key = lambda task: priority_order.get(task.get_priority()), reverse=True) 
+
 
 
     """

@@ -1,4 +1,24 @@
-# main.py
+"""
+File Name: main.py
+Authors: Tasnem - Marwan - Hager - Hassan - Nancy - Omar 
+Date: February 9, 2024
+Description: This file contains the main application (Command Line Interface)
+"""
+
+"""
+Functions:
+    * clear_screen
+    * create_user_tasks_file
+    * delete_user_tasks_file
+    * load_user_tasks
+    * save_user_tasks
+    * user_menu
+    * add_user
+    * delete_user
+    * display_users
+    * login
+    * main
+"""
 
 ############# Modules Section #############
 from Task import Task

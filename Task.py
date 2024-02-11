@@ -5,9 +5,6 @@ Date: February 9, 2024
 Description: This file contains the Task Class
 """
 
-from colorama import init, Fore, Style
-
-init(autoreset=True)
 
 """
 Task Class :
@@ -20,6 +17,14 @@ Attributes:
 Functions:
     * mark_as_completed
 """
+
+############# Modules Section #############
+from colorama import init, Fore, Style
+###########################################
+
+init(autoreset=True)
+
+
 class Task:
     def __init__(task, description : str,completed=False, due_date=None, priority="Low", additional_details=None):
         task.description = description
@@ -79,7 +84,7 @@ class Task:
     # @param : date (str): The due date of the tas
     """
     def get_priority(self):
-        return self.priority if self.priority is not None else "Low"
+        return self.priority
 
 
     """
