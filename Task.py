@@ -49,7 +49,7 @@ class Task:
             "due_date": str(self.due_date),
             "priority": str(self.priority),
             "additional_details": str(self.additional_details),
-            "completed": self.completed
+            "completed": str(self.completed)
         }
     
     """

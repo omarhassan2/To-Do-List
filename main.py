@@ -18,12 +18,14 @@ Functions:
     * display_users
     * login
     * main
+
 """
 
 ############# Modules Section #############
 from Task import Task
 from To_Do_List import ToDoList
 from User import User
+import time
 import os
 from colorama import init, Fore, Style
 import json
@@ -119,6 +121,16 @@ def save_user_tasks(user :User, tasks):
     except IOError as e:
         print(f"{Fore.RED}Error writing to '{filename}': {e}")
 
+def template_menu():
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*25)
+    print(f"{Fore.LIGHTGREEN_EX}" + "|       User Menu       |")
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*25)
+    print(f"{Fore.LIGHTMAGENTA_EX}1." + Style.RESET_ALL + " Add Task")
+    print(f"{Fore.LIGHTMAGENTA_EX}2." + Style.RESET_ALL + " Mark Task as Completed")
+    print(f"{Fore.LIGHTMAGENTA_EX}3." + Style.RESET_ALL + " Delete Task")
+    print(f"{Fore.LIGHTMAGENTA_EX}4." + Style.RESET_ALL + " View Tasks")
+    print(f"{Fore.LIGHTMAGENTA_EX}5." + Style.RESET_ALL + " Logout")
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*25)
 
 def user_menu(logged_user):
     """
@@ -133,17 +145,16 @@ def user_menu(logged_user):
     # Load user tasks when logging in
     logged_user.toDoList.tasks = load_user_tasks(logged_user)
 
-    while True:
-        print(f"{logged_user}\nUser Menu\n")
-        print("1. Add Task")
-        print("2. Mark Task as Completed")
-        print("3. Delete Task")
-        print("4. View Tasks")
-        print("5. Logout")
+    template_menu()
 
-        choice = input("Enter your choice (1-5): ")
+    while True:
+        for char in "Enter your choice (1-5):":
+            print(char, end='', flush=True)
+            time.sleep(0.03)
+        choice = input()
 
         if choice == "1":
+            os.system("cls")
             # Get task details from the user and add the task
             description = input("Enter task description: ")
             due_date = input("Enter due date (optional): ")
@@ -168,10 +179,17 @@ def user_menu(logged_user):
             # Save tasks after adding
             save_user_tasks(logged_user, logged_user.toDoList.tasks)
 
+            time.sleep(1)
+            os.system("cls")
+            template_menu()
+
         elif choice == "2":
+            os.system("cls")
+
             # Mark a task as completed
             try:
                 if logged_user.toDoList.view_tasks() != -1:
+                    print(f"{Fore.LIGHTGREEN_EX}" + "-"*25)
                     task_index = int(input("Enter the index of the task to mark as completed: "))
                     logged_user.toDoList.mark_task_as_completed(task_index - 1)
             except IndexError:
@@ -180,19 +198,39 @@ def user_menu(logged_user):
             # Save tasks after marking as completed
             save_user_tasks(logged_user, logged_user.toDoList.tasks)
 
+            time.sleep(1)
+            os.system("cls")
+            template_menu()
+
         elif choice == "3":
+            os.system("cls")
+
             # Delete a task
             logged_user.toDoList.view_tasks()
             
-            task_index = int(input("Enter the index of the task to delete: "))
+            print(f"{Fore.LIGHTGREEN_EX}" + "-"*25)
+            task_index = int(input(f"{Fore.YELLOW}Enter the index of the task to delete: "))
             logged_user.toDoList.delete_task(task_index - 1)
 
             # Save tasks after deletion
             save_user_tasks(logged_user, logged_user.toDoList.tasks)
 
+            time.sleep(1)
+            os.system("cls")
+            template_menu()
+
         elif choice == "4":
+            os.system("cls")
+
             # View tasks
             logged_user.toDoList.view_tasks()
+
+            username = input(f"\n{Fore.YELLOW}" + "type 'back' to return to the main menu: ")
+
+            if username.lower() == 'back':
+                os.system("cls")
+                template_menu()
+
 
         elif choice == "5":
             # Logout and return to the main menu
@@ -263,7 +301,7 @@ def display_users(users_list):
     print(f"{Fore.CYAN}Users List")
     for user in users_list:
         print(f"{Fore.CYAN}| {user.name} ", end='')
-    print("\n")
+    print()
 
 def login(users_list):
     """
@@ -277,7 +315,7 @@ def login(users_list):
     """
     while True:
         try:
-            username = input("Enter your username to login (or type 'back' to return to the main menu): ")
+            username = input(f"\n{Fore.YELLOW}" + "Enter your username to login (or type 'back' to return to the main menu): ")
 
             if username.lower() == 'back':
                 return None
@@ -293,41 +331,85 @@ def login(users_list):
         except ValueError as e:
             print(f"{Fore.RED}Error: {e}")
 
+
+def template():
+    print(f"\n\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 40)
+    print(f"{Fore.LIGHTGREEN_EX}" + "\t\t\t|   Welcome to To-Do List Application  |")
+    print(f"\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 40)
+
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*17)
+    print(f"{Fore.LIGHTGREEN_EX}" + "|   Main Menu   |")
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*17)
+    
+    print(f"{Fore.LIGHTMAGENTA_EX}1." + Style.RESET_ALL + " Add User")
+    print(f"{Fore.LIGHTMAGENTA_EX}2." + Style.RESET_ALL + " Delete User")
+    print(f"{Fore.LIGHTMAGENTA_EX}3." + Style.RESET_ALL + " Login")
+    print(f"{Fore.LIGHTMAGENTA_EX}4." + Style.RESET_ALL + " Exit")
+    print(f"{Fore.LIGHTGREEN_EX}" + "-"*17)
+
+
 def main():
     # List to store User objects
     users_list = []
 
+    template()
+
     while True:
-        print(f"\n{Fore.LIGHTGREEN_EX}" + " " * 48 + "Welcome to To-Do List Application\n")
-        print(f"{Fore.LIGHTMAGENTA_EX}1." + Style.RESET_ALL + " Add User")
-        print(f"{Fore.LIGHTMAGENTA_EX}2." + Style.RESET_ALL + " Delete User")
-        print(f"{Fore.LIGHTMAGENTA_EX}3." + Style.RESET_ALL + " Login")
-        print(f"{Fore.LIGHTMAGENTA_EX}4." + Style.RESET_ALL + " Exit")
+        
 
-        display_users(users_list)
+        # display_users(users_list)
 
-        choice = input("Enter your choice (1-4): ")
+        
+        for char in "Enter your choice (1-4):":
+            print(char, end='', flush=True)
+            time.sleep(0.03)
+        choice = input()
 
         if choice == "1":
-            user_name = input("Enter the name of the new user: ")
+            os.system("cls")
+            print(f"\n\t\t\t{Fore.LIGHTGREEN_EX}" + "-"*33)
+            print(f"{Fore.LIGHTGREEN_EX}" + "\t\t\t|   Welcome to Registration Page  |")
+            print(f"\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 33)
+
+            user_name = input(f"\n{Fore.YELLOW}" + "Enter your username: ")
             add_user(users_list, user_name)
 
+            time.sleep(1)
+            os.system("cls")
+            template()
+
         elif choice == "2":
-            user_name = input("Enter the name of the user to delete: ")
+            os.system("cls")
+            print(f"\n\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 35)
+            print(f"{Fore.LIGHTGREEN_EX}" + "\t\t\t|   Welcome to Deleting Page  |")
+            print(f"\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 35)
+
+            print(f"{Fore.LIGHTGREEN_EX}" + "-" * 20)
+            display_users(users_list)
+            print(f"{Fore.LIGHTGREEN_EX}" + "-" * 20)
+
+            user_name = input(f"\n{Fore.YELLOW}" + "Enter the name of the user you want to delete: ")
             delete_user(users_list, user_name)
             delete_user_tasks_file(user_name)
 
+            time.sleep(1)
+            os.system("cls")
+            template()
+
         elif choice == "3":
+            os.system("cls")
+            print(f"\n\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 28)
+            print(f"{Fore.LIGHTGREEN_EX}" + "\t\t\t|   Welcome to Login Page  |")
+            print(f"\t\t\t{Fore.LIGHTGREEN_EX}" + "-" * 28)
 
             logged_user = login(users_list)
 
             if logged_user:
-
-                #clear_screen()  
-
                 user_menu(logged_user)
 
-                #clear_screen()
+            time.sleep(1)
+            os.system("cls")
+            template()
 
         elif choice == "4":
             print("Exiting To-Do List Application.")
